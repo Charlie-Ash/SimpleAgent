@@ -1,0 +1,9 @@
+langchain
+langchain-core
+langchain-classic
+wikipedia 
+langchain-community
+langchain-ollama
+langchain-anthropic
+pydantic
+duckduckgo-search
