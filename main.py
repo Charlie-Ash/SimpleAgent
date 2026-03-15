@@ -20,6 +20,7 @@ llm = ChatOllama(
     temperature=0
 )
 
+# Turn the LLM's response into the format of ResearchResponse, and then, we can use the parser as an object. 
 parser = PydanticOutputParser(pydantic_object=ResearchResponse)
 
 prompt = ChatPromptTemplate.from_messages(
@@ -44,12 +45,12 @@ prompt = ChatPromptTemplate.from_messages(
             """,
         ),
         ("human", "{query}"),
-        ("placeholder", "{agent_scratchpad}"),
+        ("ai", "{agent_scratchpad}"),
     ]
 ).partial(format_instructions=parser.get_format_instructions())
 
 tools = [search_tool, wiki_tool, save_tool]
-agent = create_react_agent(
+agent = create_react_agent(  # The REACT agent, it'll match the variables in the prompts to the ones it needs.
     llm=llm,
     prompt=prompt,
     tools=tools
@@ -62,7 +63,7 @@ output_text = raw_response.get("output")
 
 try:
     structured_response = parser.parse(output_text)
-    print("\nStrictured Response\n")
+    print("\nStructured Response\n")
     print(structured_response)
 except Exception as e:
     print("Error parsing response", e, "Raw Response - ", raw_response)
