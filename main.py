@@ -1,5 +1,3 @@
-# DOES NOT RUN YET, NEEDS FIXING!
-from dotenv import load_dotenv
 from pydantic import BaseModel
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
@@ -56,7 +54,7 @@ agent = create_react_agent(  # The REACT agent, it'll match the variables in the
     tools=tools
 )
 
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, max_iterations=5)
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True, max_iterations=5, handle_parsing_errors=True)
 query = input(">>> ")
 raw_response = agent_executor.invoke({"query": query})
 output_text = raw_response.get("output")
